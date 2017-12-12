@@ -104,7 +104,7 @@ class PostTest(webapp2.RequestHandler):
         self.response.write(return_data)
         # self.response.write(json.encode(data))
 
-class InsertTest(webapp2.RequestHandler):
+class Register(webapp2.RequestHandler):
     """Handler for test SQL query generator"""
     def post(self):
         db  = connect_to_cloudsql()
@@ -124,7 +124,7 @@ app = webapp2.WSGIApplication([
     ('/dbinfo', DBInfoPage),
     ('/testtable', TestTable),
     ('/posttest', PostTest),
-    ('/inserttest', InsertTest),
+    ('/register', InsertTest),
 ], debug=True)
 
 # [END all]
