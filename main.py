@@ -124,7 +124,7 @@ app = webapp2.WSGIApplication([
     ('/dbinfo', DBInfoPage),
     ('/testtable', TestTable),
     ('/posttest', PostTest),
-    ('/register', InsertTest),
+    ('/register', Register),
 ], debug=True)
 
 # [END all]
