@@ -1,0 +1,19 @@
+runtime: python27
+api_version: 1
+threadsafe: yes
+
+handlers:
+- url: /.*
+  script: main.app
+
+
+libraries:
+- name: MySQLdb
+  version: "latest"
+
+# [START env_variables]
+env_variables:
+    CLOUDSQL_CONNECTION_NAME: cu-psb-ssi:asia-south1:cu-psb-ssi-db
+    CLOUDSQL_USER: ssi_db
+    CLOUDSQL_PASSWORD: studentsignin
+# [END env_variables]
