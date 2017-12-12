@@ -113,10 +113,15 @@ class Register(webapp2.RequestHandler):
         cols = data.keys()
         vals = data.values()
         insert_qry = "INSERT INTO tbl_users (%s) VALUES(\"%s\")" % (",".join(cols), "\",\"".join(vals))
-        cursor.execute(insert_qry)
-        db.commit()
-        self.response.headers.add_header('Content-Type', 'text/plain')
-        self.response.write(insert_qry)
+        try:
+            cursor.execute(insert_qry)
+            db.commit()
+            json_response = {"status": "success"}
+        except (MySQLdb.Error, MySQLdb.Warning) as e:
+            json_response = {"status": e}
+
+        self.response.headers['Content-Type'] = 'application/json'
+        self.response.write(json.encode(json_response))
 
 
 app = webapp2.WSGIApplication([
