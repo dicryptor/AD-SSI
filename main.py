@@ -118,7 +118,7 @@ class Register(webapp2.RequestHandler):
             db.commit()
             json_response = {"status": "success"}
         except (MySQLdb.Error, MySQLdb.Warning) as e:
-            json_response = {"status": "%s"} % e
+            json_response = {"status": "%s" % e}
 
         self.response.headers['Content-Type'] = 'application/json'
         self.response.write(json.encode(json_response))
