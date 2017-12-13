@@ -1,0 +1,22 @@
+%define lookup-function-name lookupGeneratedInit
+%define class-name WifiscannerBindings
+%{
+
+#include <string.h>
+#include <v8.h>
+#include <KrollBindings.h>
+
+#include "com.whitepagecreation.wifiscanner.ExampleProxy.h"
+#include "com.whitepagecreation.wifiscanner.WifiscannerModule.h"
+
+
+namespace titanium {
+namespace bindings {
+%}
+struct BindEntry;
+%%
+com.whitepagecreation.wifiscanner.WifiscannerModule,::com::whitepagecreation::wifiscanner::WifiscannerModule::bindProxy,::com::whitepagecreation::wifiscanner::WifiscannerModule::dispose
+com.whitepagecreation.wifiscanner.ExampleProxy,::com::whitepagecreation::wifiscanner::wifiscanner::ExampleProxy::bindProxy,::com::whitepagecreation::wifiscanner::wifiscanner::ExampleProxy::dispose
+%%
+}
+}

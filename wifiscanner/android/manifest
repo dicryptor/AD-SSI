@@ -1,0 +1,18 @@
+#
+# this is your module manifest and used by Titanium
+# during compilation, packaging, distribution, etc.
+#
+version: 1.0
+apiversion: 3
+architectures: armeabi-v7a x86
+description: scanner
+author: Paul
+license: all right reserved.
+copyright: Copyright (c) 2017
+
+# these should not be edited
+name: wifiscanner
+moduleid: com.whitepagecreation.wifiscanner
+guid: 76a0d917-b17e-4ca1-b8aa-f3de2f82c2c9
+platform: android
+minsdk: 6.1.2.GA
