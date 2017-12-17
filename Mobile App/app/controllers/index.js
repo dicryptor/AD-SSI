@@ -6,20 +6,34 @@ var height30 = Alloy.Globals.calculateHeight(30);
 var wifiscanner = require("com.whitepagecreation.wifiscanner");
 var deviceid = "";
 var permissions = ['android.permission.READ_PHONE_STATE'];
-Ti.Android.requestPermissions(permissions, function(e) {
-	if (e.success) {
-		Ti.API.info("SUCCESS");
-		deviceid = wifiscanner.getDeviceID();
-	} else {
-		Ti.API.info("ERROR: " + e.error);
-	}
-});
-////////////////////////////////////////////
 var dialog = Ti.UI.createAlertDialog({
 	message : '',
 	ok : 'Okay',
 	title : 'Oops!'
 });
+
+function requestDevId() {
+	Ti.Android.requestPermissions(permissions, function(e) {
+		if (e.success) {
+			Ti.API.info("SUCCESS");
+			if (Alloy.Globals.CheckInternetConnection) {
+				deviceid = wifiscanner.getDeviceID();
+			} else {
+				dialog.message = "Your device does not have internet. The system will try again to get your device id after 5 seconds.";
+				dialog.title = "No internet connection";
+				dialog.show();
+
+				setTimeout(function() {
+					requestDevId();
+				}, 5000);
+			}
+		} else {
+			Ti.API.info("ERROR: " + e.error);
+		}
+	});
+}
+
+////////////////////////////////////////////
 var blocker = Ti.UI.createView({
 	opacity : 0.5,
 	backgroundColor : "#000",
@@ -163,10 +177,12 @@ setTimeout(function() {
 	});
 }, 1300);
 
-$.index.addEventListener("swipe", function(e) {
+function registerFunc(e) {
 	if (e.direction == "left") {
 		Alloy.createController("register", {
 			deviceid : deviceid
 		});
 	}
-});
+}
+
+$.index.addEventListener("swipe", registerFunc);
