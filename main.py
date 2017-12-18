@@ -132,11 +132,18 @@ class SignIn(webapp2.RequestHandler):
         data = json.decode(self.request.body)
         cols = data.keys()
         vals = data.values()
-        idx = cols.index("signinout")
-        if vals[idx] == "signin":
+        in_out = cols.index("signinout")
+        id_imei = cols.index("id_imei")
+        if vals[in_out] == "signin":
             insert_qry = "INSERT INTO tbl_attendance (%s) VALUES(\"%s\")" % (",".join(cols), "\",\"".join(vals))
-        elif vals[idx] == "signout":
-            update_qry = "UPDATE INTO"
+            try:
+                cursor.execute(insert_qry)
+                db.commit()
+                json_response = {"status": "success"}
+            except (MySQLdb.Error, MySQLdb.Warning) as e:
+                json_response = {"status": "%s" % e}
+        elif vals[in_out] == "signout":
+            update_qry = "UPDATE tbl_attendance SET sign_out=now() WHERE id_imei="%s"" % (vals[id_imei])
         # try:
         #     cursor.execute(insert_qry)
         #     db.commit()
@@ -144,7 +151,7 @@ class SignIn(webapp2.RequestHandler):
         # except (MySQLdb.Error, MySQLdb.Warning) as e:
         #     json_response = {"status": "%s" % e}
         self.response.headers['Content-Type'] = 'text/plain'
-        self.response.write(vals, vals[idx])
+        self.response.write(vals[idx])
         # self.response.headers['Content-Type'] = 'application/json'
         # self.response.write(json.encode(json_response))
 
