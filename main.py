@@ -142,7 +142,7 @@ class SignIn(webapp2.RequestHandler):
                 cursor.execute(insert_qry)
                 db.commit()
                 json_response = {"status": "success"}
-                cursor.execute('SELECT first_name, last_name FROM tbl_users WHERE student_id=\"%s\"') % (student_id)
+                cursor.execute('SELECT first_name, last_name FROM tbl_users WHERE student_id=\"%s\"' % (student_id))
                 row_headers = [x[0] for x in cursor.description]  # this will extract row headers
                 name = cursor.fetchone()
                 for i in row_headers:
@@ -159,7 +159,7 @@ class SignIn(webapp2.RequestHandler):
                 cursor.execute(update_qry)
                 db.commit()
                 json_response = {"status": "success"}
-                cursor.execute('SELECT first_name, last_name FROM tbl_users WHERE student_id=\"%s\"') % (student_id)
+                cursor.execute('SELECT first_name, last_name FROM tbl_users WHERE student_id=\"%s\"' % (student_id))
                 row_headers = [x[0] for x in cursor.description]  # this will extract row headers
                 name = cursor.fetchone()
                 for i in row_headers:
