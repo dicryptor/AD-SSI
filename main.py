@@ -133,6 +133,7 @@ class SignIn(webapp2.RequestHandler):
         cols = data.keys()
         vals = data.values()
         insert_qry = "INSERT INTO tbl_attendance (%s) VALUES(\"%s\")" % (",".join(cols), "\",\"".join(vals))
+
         # try:
         #     cursor.execute(insert_qry)
         #     db.commit()
