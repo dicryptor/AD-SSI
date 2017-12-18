@@ -148,12 +148,18 @@ class SignIn(webapp2.RequestHandler):
             # self.response.write(insert_qry)
         elif vals[in_out] == "signout":
             update_qry = "UPDATE tbl_attendance SET sign_out=now() WHERE id_imei=\"%s\"" % (vals[id_imei])
+            arc_qry = "INSERT INTO tbl_attendance_arc select * from tbl_attendance WHERE id_imei=\"%s\"" % (vals[id_imei])
+            del_qry = "DELETE from tbl_attendance WHERE id_imei=\"%s\"" % (vals[id_imei])
             try:
                 cursor.execute(update_qry)
                 db.commit()
                 json_response = {"status": "success"}
             except (MySQLdb.Error, MySQLdb.Warning) as e:
                 json_response = {"status": "%s" % e}
+            # archive attendance once signed out to allow signin again if required
+            cursor.execute(arc_qry)
+            cursor.execute(del_qry)
+            db.commit()
             # self.response.headers['Content-Type'] = 'text/plain'
             # self.response.write(update_qry)
 
