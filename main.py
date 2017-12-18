@@ -137,7 +137,6 @@ class SignIn(webapp2.RequestHandler):
             insert_qry = "INSERT INTO tbl_attendance (%s) VALUES(\"%s\")" % (",".join(cols), "\",\"".join(vals))
         elif vals[idx] == "signout":
             update_qry = "UPDATE INTO"
-
         # try:
         #     cursor.execute(insert_qry)
         #     db.commit()
