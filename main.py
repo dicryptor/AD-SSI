@@ -154,7 +154,8 @@ class SignIn(webapp2.RequestHandler):
             # self.response.write(insert_qry)
         elif vals[in_out] == "signout":
             update_qry = "UPDATE tbl_attendance SET sign_out=now() WHERE id_imei=\"%s\"" % (id_imei)
-            arc_qry = "INSERT INTO tbl_attendance_arc select * from tbl_attendance WHERE id_imei=\"%s\"" % (id_imei)
+            arc_qry = "INSERT INTO tbl_attendance_arc (id_imei, student_id, sign_in, sign_out) " \
+                      "select * from tbl_attendance WHERE id_imei=\"%s\"" % (id_imei)
             del_qry = "DELETE from tbl_attendance WHERE id_imei=\"%s\"" % (id_imei)
             try:
                 cursor.execute(update_qry)
