@@ -132,8 +132,11 @@ class SignIn(webapp2.RequestHandler):
         data = json.decode(self.request.body)
         cols = data.keys()
         vals = data.values()
-        idx = cols.index("singinout")
-        # insert_qry = "INSERT INTO tbl_attendance (%s) VALUES(\"%s\")" % (",".join(cols), "\",\"".join(vals))
+        idx = cols.index("signinout")
+        if vals[idx] == "signin":
+            insert_qry = "INSERT INTO tbl_attendance (%s) VALUES(\"%s\")" % (",".join(cols), "\",\"".join(vals))
+        elif vals[idx] == "signout":
+            update_qry = "UPDATE INTO"
 
         # try:
         #     cursor.execute(insert_qry)
