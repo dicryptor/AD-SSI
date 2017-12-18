@@ -137,7 +137,7 @@ class SignIn(webapp2.RequestHandler):
         student_id = cols.index("student_id")
 
         if vals[in_out] == "signin":
-            insert_qry = "INSERT INTO tbl_attendance (id_imei, student_id) VALUES(%s, %s)" % (vals[id_imei, vals[student_id]])
+            insert_qry = "INSERT INTO tbl_attendance (id_imei, student_id) VALUES(%s, %s)" % (vals[id_imei], vals[student_id])
             # try:
             #     cursor.execute(insert_qry)
             #     db.commit()
