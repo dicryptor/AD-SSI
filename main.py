@@ -145,7 +145,7 @@ class SignIn(webapp2.RequestHandler):
             # except (MySQLdb.Error, MySQLdb.Warning) as e:
             #     json_response = {"status": "%s" % e}
         elif vals[in_out] == "signout":
-            update_qry = "UPDATE tbl_attendance SET sign_out=now() WHERE id_imei="%s"" % (vals[id_imei])
+            update_qry = "UPDATE tbl_attendance SET sign_out=now() WHERE id_imei=\"%s\"" % (vals[id_imei])
         # try:
         #     cursor.execute(insert_qry)
         #     db.commit()
