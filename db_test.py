@@ -35,13 +35,18 @@ def connect_to_cloudsql():
 
     return db
 
-
+student_id = "7665464"
 db = connect_to_cloudsql()
 cursor = db.cursor()
-cursor.execute('SELECT first_name, last_name FROM tbl_users WHERE student_id=\"7665464\"')
+# cursor.execute('INSERT INTO tbl_users (id_imei, first_name, last_name, student_id, batch, role) '
+#                'VALUES (\'12323123\', \'123\', \'123\', \'123\', \'123123\', \'student\')')
+# db.commit()
+cursor.execute('SELECT first_name, last_name FROM tbl_users WHERE student_id=\"%s\"' % (student_id))
 row_headers=[x[0] for x in cursor.description] #this will extract row headers
 name = cursor.fetchone()
 # print row_headers
 json_data = dict(zip(row_headers, name))
-json_data = json.encode(json_data)
-print json_data
+for i,j in enumerate(row_headers):
+    print row_headers[i]
+    print name[i]
+    json_data.update({row_headers[i]: name[i]})

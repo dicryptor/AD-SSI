@@ -145,8 +145,9 @@ class SignIn(webapp2.RequestHandler):
                 cursor.execute('SELECT first_name, last_name FROM tbl_users WHERE student_id=\"%s\"' % (student_id))
                 row_headers = [x[0] for x in cursor.description]  # this will extract row headers
                 name = cursor.fetchone()
-                for i,j in enumerate(row_headers):
-                    json_response.update({row_headers[i]: name[i]})
+                if name is not None:
+                    for i,j in enumerate(row_headers):
+                        json_response.update({row_headers[i]: name[i]})
             except (MySQLdb.Error, MySQLdb.Warning) as e:
                 json_response = {"status": "%s" % e}
             # self.response.headers['Content-Type'] = 'text/plain'
@@ -162,8 +163,9 @@ class SignIn(webapp2.RequestHandler):
                 cursor.execute('SELECT first_name, last_name FROM tbl_users WHERE student_id=\"%s\"' % (student_id))
                 row_headers = [x[0] for x in cursor.description]  # this will extract row headers
                 name = cursor.fetchone()
-                for i,j in enumerate(row_headers):
-                    json_response.update({row_headers[i]: name[i]})
+                if name is not None:
+                    for i,j in enumerate(row_headers):
+                        json_response.update({row_headers[i]: name[i]})
                 # archive attendance once signed out to allow sign-in again if required
                 cursor.execute(arc_qry)
                 cursor.execute(del_qry)
