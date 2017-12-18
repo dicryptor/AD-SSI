@@ -142,6 +142,11 @@ class SignIn(webapp2.RequestHandler):
                 cursor.execute(insert_qry)
                 db.commit()
                 json_response = {"status": "success"}
+                cursor.execute('SELECT first_name, last_name FROM tbl_users WHERE student_id=\"%s\"') % (student_id)
+                row_headers = [x[0] for x in cursor.description]  # this will extract row headers
+                name = cursor.fetchone()
+                for i in row_headers:
+                    json_response.update({row_headers[i]: name[i]})
             except (MySQLdb.Error, MySQLdb.Warning) as e:
                 json_response = {"status": "%s" % e}
             # self.response.headers['Content-Type'] = 'text/plain'
@@ -154,7 +159,7 @@ class SignIn(webapp2.RequestHandler):
                 cursor.execute(update_qry)
                 db.commit()
                 json_response = {"status": "success"}
-                cursor.execute('SELECT first_name, last_name FROM tbl_users WHERE student_id=\"7665464\"')
+                cursor.execute('SELECT first_name, last_name FROM tbl_users WHERE student_id=\"%s\"') % (student_id)
                 row_headers = [x[0] for x in cursor.description]  # this will extract row headers
                 name = cursor.fetchone()
                 for i in row_headers:
