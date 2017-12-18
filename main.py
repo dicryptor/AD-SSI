@@ -124,12 +124,34 @@ class Register(webapp2.RequestHandler):
         self.response.write(json.encode(json_response))
 
 
+class SignIn(webapp2.RequestHandler):
+    """Handler for test SQL query generator"""
+    def post(self):
+        db  = connect_to_cloudsql()
+        cursor = db.cursor()
+        data = json.decode(self.request.body)
+        cols = data.keys()
+        vals = data.values()
+        # insert_qry = "INSERT INTO tbl_users (%s) VALUES(\"%s\")" % (",".join(cols), "\",\"".join(vals))
+        # try:
+        #     cursor.execute(insert_qry)
+        #     db.commit()
+        #     json_response = {"status": "success"}
+        # except (MySQLdb.Error, MySQLdb.Warning) as e:
+        #     json_response = {"status": "%s" % e}
+        self.response.headers['Content-Type'] = 'text/plain'
+        self.response.write(vals[0], vals[1], vals[2])
+        # self.response.headers['Content-Type'] = 'application/json'
+        # self.response.write(json.encode(json_response))
+
+
 app = webapp2.WSGIApplication([
     ('/', MainPage),
     ('/dbinfo', DBInfoPage),
     ('/testtable', TestTable),
     ('/posttest', PostTest),
     ('/register', Register),
+    ('/signin', SignIn),
 ], debug=True)
 
 # [END all]
