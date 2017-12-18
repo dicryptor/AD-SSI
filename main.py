@@ -132,6 +132,7 @@ class SignIn(webapp2.RequestHandler):
         data = json.decode(self.request.body)
         cols = data.keys()
         vals = data.values()
+        idx = cols.index("singinout")
         # insert_qry = "INSERT INTO tbl_attendance (%s) VALUES(\"%s\")" % (",".join(cols), "\",\"".join(vals))
 
         # try:
@@ -141,7 +142,7 @@ class SignIn(webapp2.RequestHandler):
         # except (MySQLdb.Error, MySQLdb.Warning) as e:
         #     json_response = {"status": "%s" % e}
         self.response.headers['Content-Type'] = 'text/plain'
-        self.response.write(vals)
+        self.response.write(vals, vals[idx])
         # self.response.headers['Content-Type'] = 'application/json'
         # self.response.write(json.encode(json_response))
 
