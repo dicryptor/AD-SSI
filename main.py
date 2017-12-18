@@ -138,12 +138,12 @@ class SignIn(webapp2.RequestHandler):
 
         if vals[in_out] == "signin":
             insert_qry = "INSERT INTO tbl_attendance (id_imei, student_id) VALUES(%s, %s)" % (vals[id_imei], vals[student_id])
-            # try:
-            #     cursor.execute(insert_qry)
-            #     db.commit()
-            #     json_response = {"status": "success"}
-            # except (MySQLdb.Error, MySQLdb.Warning) as e:
-            #     json_response = {"status": "%s" % e}
+            try:
+                cursor.execute(insert_qry)
+                db.commit()
+                json_response = {"status": "success"}
+            except (MySQLdb.Error, MySQLdb.Warning) as e:
+                json_response = {"status": "%s" % e}
         elif vals[in_out] == "signout":
             update_qry = "UPDATE tbl_attendance SET sign_out=now() WHERE id_imei=\"%s\"" % (vals[id_imei])
         # try:
@@ -153,7 +153,7 @@ class SignIn(webapp2.RequestHandler):
         # except (MySQLdb.Error, MySQLdb.Warning) as e:
         #     json_response = {"status": "%s" % e}
         self.response.headers['Content-Type'] = 'text/plain'
-        self.response.write(insert_qry)
+        self.response.write(update_qry)
         # self.response.headers['Content-Type'] = 'application/json'
         # self.response.write(json.encode(json_response))
 
