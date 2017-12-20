@@ -78,24 +78,6 @@ class DBInfoPage(webapp2.RequestHandler):
             self.response.write('{}\n'.format(r))
 
 
-class TestTable(webapp2.RequestHandler):
-    def get(self):
-        """Simple test to query data from test table"""
-        self.response.headers['Content-Type'] = 'application/json'
-        db  = connect_to_cloudsql()
-        cursor = db.cursor()
-        cursor.execute('SELECT * FROM tbl_gae_test')
-        
-        row_headers=[x[0] for x in cursor.description] #this will extract row headers
-        rv = cursor.fetchall()
-        json_data = []
-        for result in rv:
-            json_data.append(dict(zip(row_headers,result)))
-        self.response.write(json.encode(json_data))
-        #for r in cursor.fetchall():
-        #    self.response.write('{}\n'.format(r))
-
-
 class PostTest(webapp2.RequestHandler):
     def post(self):
         data = json.decode(self.request.body)
@@ -184,7 +166,6 @@ class SignIn(webapp2.RequestHandler):
 app = webapp2.WSGIApplication([
     ('/', MainPage),
     ('/dbinfo', DBInfoPage),
-    ('/testtable', TestTable),
     ('/posttest', PostTest),
     ('/register', Register),
     ('/signin', SignIn),
