@@ -71,7 +71,7 @@ class DevPage(webapp2.RequestHandler):
         self.response.write('Hello, Developers of CU BSc. PT-316!')
 
 
-class Test(webapp2.RequestHandler):
+class Users(webapp2.RequestHandler):
     def get(self):
         """Simple test to query data from test table"""
         self.response.headers['Content-Type'] = 'application/json'
@@ -108,7 +108,7 @@ class Attendance(webapp2.RequestHandler):
 
 app = webapp2.WSGIApplication([
     ('/dev/main', DevPage),
-    ('/dev/test', Test),
+    ('/dev/users', Test),
     ('/dev/attendance', Attendance),
 ], debug=True)
 
