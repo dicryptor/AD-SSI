@@ -124,12 +124,70 @@ class Register(webapp2.RequestHandler):
         self.response.write(json.encode(json_response))
 
 
+class SignIn(webapp2.RequestHandler):
+    """Handler for test SQL query generator"""
+    def post(self):
+        db  = connect_to_cloudsql()
+        cursor = db.cursor()
+        data = json.decode(self.request.body)
+        cols = data.keys()
+        vals = data.values()
+        in_out = cols.index("signinout")
+        id_imei = vals[cols.index("id_imei")]
+        student_id = vals[cols.index("student_id")]
+
+        if vals[in_out] == "signin":
+            insert_qry = "INSERT INTO tbl_attendance (id_imei, student_id) VALUES(%s, %s)" % (id_imei, student_id)
+            try:
+                cursor.execute(insert_qry)
+                db.commit()
+                json_response = {"status": "success"}
+                cursor.execute('SELECT first_name, last_name FROM tbl_users WHERE student_id=\"%s\"' % (student_id))
+                row_headers = [x[0] for x in cursor.description]  # this will extract row headers
+                name = cursor.fetchone()
+                if name is not None:
+                    for i,j in enumerate(row_headers):
+                        json_response.update({row_headers[i]: name[i]})
+            except (MySQLdb.Error, MySQLdb.Warning) as e:
+                json_response = {"status": "%s" % e}
+            # self.response.headers['Content-Type'] = 'text/plain'
+            # self.response.write(insert_qry)
+        elif vals[in_out] == "signout":
+            update_qry = "UPDATE tbl_attendance SET sign_out=now() WHERE id_imei=\"%s\"" % (id_imei)
+            arc_qry = "INSERT INTO tbl_attendance_arc (id_imei, student_id, sign_in, sign_out) " \
+                      "select * from tbl_attendance WHERE id_imei=\"%s\"" % (id_imei)
+            del_qry = "DELETE from tbl_attendance WHERE id_imei=\"%s\"" % (id_imei)
+            try:
+                cursor.execute(update_qry)
+                db.commit()
+                json_response = {"status": "success"}
+                cursor.execute('SELECT first_name, last_name FROM tbl_users WHERE student_id=\"%s\"' % (student_id))
+                row_headers = [x[0] for x in cursor.description]  # this will extract row headers
+                name = cursor.fetchone()
+                if name is not None:
+                    for i,j in enumerate(row_headers):
+                        json_response.update({row_headers[i]: name[i]})
+                # archive attendance once signed out to allow sign-in again if required
+                cursor.execute(arc_qry)
+                cursor.execute(del_qry)
+                db.commit()
+            except (MySQLdb.Error, MySQLdb.Warning) as e:
+                json_response = {"status": "%s" % e}
+
+            # self.response.headers['Content-Type'] = 'text/plain'
+            # self.response.write(update_qry)
+
+        self.response.headers['Content-Type'] = 'application/json'
+        self.response.write(json.encode(json_response))
+
+
 app = webapp2.WSGIApplication([
     ('/', MainPage),
     ('/dbinfo', DBInfoPage),
     ('/testtable', TestTable),
     ('/posttest', PostTest),
     ('/register', Register),
+    ('/signin', SignIn),
 ], debug=True)
 
 # [END all]
