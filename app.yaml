@@ -6,6 +6,9 @@ handlers:
 - url: /dev/.*
   script: dev.app
 
+- url: /lecturer/.*
+  script: lecturer.app
+
 - url: /.*
   script: main.app
 
