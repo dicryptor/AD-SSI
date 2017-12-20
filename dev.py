@@ -108,7 +108,7 @@ class Attendance(webapp2.RequestHandler):
 
 app = webapp2.WSGIApplication([
     ('/dev/main', DevPage),
-    ('/dev/users', Test),
+    ('/dev/users', Users),
     ('/dev/attendance', Attendance),
 ], debug=True)
 
