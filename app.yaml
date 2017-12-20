@@ -3,11 +3,11 @@ api_version: 1
 threadsafe: yes
 
 handlers:
+- url: /dev/.*
+  script: dev.app
+
 - url: /.*
   script: main.app
-
-- url: /dev
-  script: dev.app
 
 
 libraries:
