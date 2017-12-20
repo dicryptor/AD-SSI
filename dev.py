@@ -60,6 +60,7 @@ def connect_to_cloudsql():
     return db
 
 def datetime_handler(x):
+    """To convert MySQL datetime object for JSON serializer"""
     if isinstance(x, datetime.datetime):
         return x.isoformat()
     raise TypeError("Unknown type")
