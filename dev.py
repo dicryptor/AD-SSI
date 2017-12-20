@@ -87,10 +87,28 @@ class Test(webapp2.RequestHandler):
         # for r in cursor.fetchall():
         #    self.response.write('{}\n'.format(r))
 
+class Attendance(webapp2.RequestHandler):
+    def get(self):
+        """Simple test to query data from test table"""
+        self.response.headers['Content-Type'] = 'application/json'
+        db = connect_to_cloudsql()
+        cursor = db.cursor()
+        cursor.execute('SELECT * FROM tbl_attendance')
+
+        row_headers = [x[0] for x in cursor.description]  # this will extract row headers
+        rv = cursor.fetchall()
+        json_data = []
+        for result in rv:
+            json_data.append(dict(zip(row_headers, result)))
+        self.response.write(json.encode(json_data, default=datetime_handler))
+        # for r in cursor.fetchall():
+        #    self.response.write('{}\n'.format(r))
+
 
 app = webapp2.WSGIApplication([
     ('/dev/main', DevPage),
     ('/dev/test', Test),
+    ('/dev/attendance', Attendance),
 ], debug=True)
 
 # [END all]
