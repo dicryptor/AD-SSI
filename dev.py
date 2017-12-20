@@ -21,7 +21,7 @@ For more information, see the README.md.
 
 # [START all]
 import os
-
+import datetime
 import MySQLdb
 import webapp2
 from webapp2_extras import json
@@ -59,6 +59,11 @@ def connect_to_cloudsql():
 
     return db
 
+def datetime_handler(x):
+    if isinstance(x, datetime.datetime):
+        return x.isoformat()
+    raise TypeError("Unknown type")
+
 class DevPage(webapp2.RequestHandler):
     def get(self):
         self.response.headers['Content-Type'] = 'text/plain'
@@ -78,7 +83,7 @@ class Test(webapp2.RequestHandler):
         json_data = []
         for result in rv:
             json_data.append(dict(zip(row_headers, result)))
-        self.response.write(json.encode(json_data))
+        self.response.write(json.encode(json_data, default=datetime_handler))
         # for r in cursor.fetchall():
         #    self.response.write('{}\n'.format(r))
 
