@@ -6,6 +6,9 @@ handlers:
 - url: /.*
   script: main.app
 
+- url: /dev/*
+  script: dev.app
+
 
 libraries:
 - name: MySQLdb
