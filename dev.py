@@ -66,7 +66,7 @@ class DevPage(webapp2.RequestHandler):
 
 
 app = webapp2.WSGIApplication([
-    ('/dev/main', DevPage),
+    ('/dev', DevPage),
 ], debug=True)
 
 # [END all]
