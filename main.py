@@ -181,6 +181,10 @@ class DailyArc(webapp2.RequestHandler):
         cursor.execute(on_safe_mode)
         db.commit()
 
+        self.response.headers['Content-Type'] = 'text/plain'
+        self.response.write('Attendance table cleared!')
+
+
 
 app = webapp2.WSGIApplication([
     ('/', MainPage),
