@@ -162,6 +162,25 @@ class SignIn(webapp2.RequestHandler):
         self.response.headers['Content-Type'] = 'application/json'
         self.response.write(json.encode(json_response))
 
+class DailyArc(webapp2.RequestHandler):
+    def post(self):
+        """ Archive attendance list at midnight daily for students that forget to sign out"""
+        db = connect_to_cloudsql()
+        cursor = db.cursor()
+
+        off_safe_mode = "SET SQL_SAFE_UPDATES = 0"
+        force_signout = "UPDATE ssi_db.tbl_attendance SET sign_out=now() WHERE sign_out is null"
+        archive = "INSERT INTO ssi_db.tbl_attendance_arc (id_imei, student_id, sign_in, sign_out) " \
+                  "SELECT * FROM ssi_db.tbl_attendance"
+        clear_table = "TRUNCATE tbl_attendance"
+        on_safe_mode = "SET SQL_SAFE_UPDATES = 1"
+        cursor.execute(off_safe_mode)
+        cursor.execute(force_signout)
+        cursor.execute(archive)
+        cursor.execute(clear_table)
+        cursor.execute(on_safe_mode)
+        db.commit()
+
 
 app = webapp2.WSGIApplication([
     ('/', MainPage),
@@ -169,6 +188,7 @@ app = webapp2.WSGIApplication([
     ('/posttest', PostTest),
     ('/register', Register),
     ('/signin', SignIn),
+    ('/dailyarc', DailyArc),
 ], debug=True)
 
 # [END all]

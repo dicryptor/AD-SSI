@@ -1,0 +1,4 @@
+cron:
+- description: "daily archive of attendance table"
+  url: /dailyarc
+  schedule: every 10 mins
