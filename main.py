@@ -163,7 +163,7 @@ class SignIn(webapp2.RequestHandler):
         self.response.write(json.encode(json_response))
 
 class DailyArc(webapp2.RequestHandler):
-    def post(self):
+    def get(self):
         """ Archive attendance list at midnight daily for students that forget to sign out"""
         db = connect_to_cloudsql()
         cursor = db.cursor()
