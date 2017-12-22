@@ -1,4 +1,4 @@
 cron:
 - description: "daily archive of attendance table"
   url: /dailyarc
-  schedule: every day 15:59
+  schedule: every day 07:59
