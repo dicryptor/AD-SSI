@@ -24,8 +24,7 @@ var header = Ti.UI.createLabel({
 	text : "Student Registration Form",
 	font : {
 		fontSize : Alloy.Globals.calculateHeight(26),
-		fontFamily : "SourceSansPro-Regular",
-		fontWeight : "bold"
+		fontFamily : "SourceSansPro-Bold",
 	},
 	top : Alloy.Globals.calculateHeight(15),
 	color : "#cb204c",
@@ -173,7 +172,7 @@ var submitbtn = Ti.UI.createLabel({
 	height : Alloy.Globals.calculateHeight(50),
 	backgroundColor : "#fff",
 	borderRadius : 2,
-	width : Alloy.Globals.calculateWidth(250),
+	width : Alloy.Globals.calculateWidth(270),
 	right : 0,
 	color : "#cb204c",
 	textAlign : "center"
@@ -223,7 +222,7 @@ submitbtn.addEventListener("click", function() {
 	}
 
 	if (Alloy.Globals.CheckInternetConnection == false) {
-		dialog.message = "Your device does not have internet. Please try again.";
+		dialog.message = "Your device does not have internet connection. Please try again.";
 		dialog.title = "No internet connection";
 		dialog.show();
 		return false;

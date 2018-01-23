@@ -1,147 +1,136 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ti:app xmlns:ti="http://ti.appcelerator.org">
-    <id>com.agiledevelopment.psbcheckin</id>
-    <name>PSB CheckIn</name>
-    <version>1.0</version>
-    <publisher>wpc</publisher>
-    <url/>
-    <description>undefined</description>
-    <copyright>2017 by wpc</copyright>
-    <icon>appicon.png</icon>
-    <fullscreen>false</fullscreen>
-    <navbar-hidden>true</navbar-hidden>
-    <analytics>true</analytics>
-    <guid>b93f50d1-8dfb-43a0-9ccc-87bb8cda41c0</guid>
-    <property name="ti.ui.defaultunit" type="string">dp</property>
-    <property name="run-on-main-thread" type="bool">true</property>
-    <ios>
-        <enable-launch-screen-storyboard>true</enable-launch-screen-storyboard>
-        <use-app-thinning>true</use-app-thinning>
-        <plist>
-            <dict>
-                <key>UISupportedInterfaceOrientations~iphone</key>
-                <array>
-                    <string>UIInterfaceOrientationPortrait</string>
-                </array>
-                <key>UISupportedInterfaceOrientations~ipad</key>
-                <array>
-                    <string>UIInterfaceOrientationPortrait</string>
-                    <string>UIInterfaceOrientationPortraitUpsideDown</string>
-                    <string>UIInterfaceOrientationLandscapeLeft</string>
-                    <string>UIInterfaceOrientationLandscapeRight</string>
-                </array>
-                <key>UIRequiresPersistentWiFi</key>
-                <false/>
-                <key>UIPrerenderedIcon</key>
-                <false/>
-                <key>UIStatusBarHidden</key>
-                <false/>
-                <key>UIStatusBarStyle</key>
-                <string>UIStatusBarStyleDefault</string>
-            </dict>
-        </plist>
-    </ios>
-    <android xmlns:android="http://schemas.android.com/apk/res/android">
-        <manifest android:versionCode="1" android:versionName="1.0" package="com.agiledevelopment.psbcheckin">
-            <uses-sdk android:minSdkVersion="14" android:targetSdkVersion="23"/>
-            <application android:debuggable="false"
-                android:icon="@drawable/appicon"
-                android:label="PSB CheckIn"
-                android:name="PsbCheckinApplication" android:theme="@style/Theme.AppCompat.NoTitleBar">
-                <activity
-                    android:configChanges="keyboardHidden|orientation|screenSize"
-                    android:label="@string/app_name"
-                    android:name=".PsbCheckinActivity" android:theme="@style/Theme.Titanium">
-                    <intent-filter>
-                        <action android:name="android.intent.action.MAIN"/>
-                        <category android:name="android.intent.category.LAUNCHER"/>
-                    </intent-filter>
-                </activity>
-                <activity
-                    android:configChanges="keyboardHidden|orientation|screenSize" android:name="org.appcelerator.titanium.TiActivity"/>
-                <activity
-                    android:configChanges="keyboardHidden|orientation|screenSize"
-                    android:name="org.appcelerator.titanium.TiTranslucentActivity" android:theme="@style/Theme.AppCompat.Translucent"/>
-                <activity android:configChanges="screenSize" android:name="ti.modules.titanium.ui.android.TiPreferencesActivity"/>
-                <activity android:configChanges="screenSize"
-                    android:exported="true" android:name="ti.goosh.PushHandlerActivity"/>
-                <provider
-                    android:authorities="com.agiledevelopment.psbcheckin.tifileprovider"
-                    android:exported="false"
-                    android:grantUriPermissions="true" android:name="org.appcelerator.titanium.io.TiFileProvider"/>
-                <service android:exported="false" android:name="com.appcelerator.aps.APSAnalyticsService"/>
-                <service android:exported="false" android:name="ti.goosh.IntentService">
-                    <intent-filter>
-                        <action android:name="com.google.android.c2dm.intent.RECEIVE"/>
-                    </intent-filter>
-                </service>
-                <service android:exported="false" android:name="ti.goosh.RegistrationIntentService"/>
-                <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version"/>
-                <receiver android:exported="true"
-                    android:name="com.google.android.gms.gcm.GcmReceiver" android:permission="com.google.android.c2dm.permission.SEND">
-                    <intent-filter>
-                        <action android:name="com.google.android.c2dm.intent.RECEIVE"/>
-                        <category android:name="com.agiledevelopment.psbcheckin"/>
-                    </intent-filter>
-                </receiver>
-            </application>
-            <uses-permission android:name="com.sonyericsson.home.permission.BROADCAST_BADGE"/>
-            <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE"/>
-            <uses-permission android:name="android.permission.WAKE_LOCK"/>
-            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
-            <uses-permission android:name="android.permission.VIBRATE"/>
-            <uses-permission android:name="android.permission.INTERNET"/>
-            <uses-permission android:name="android.permission.USE_CREDENTIALS"/>
-            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-            <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-            <uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION"/>
-            <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
-            <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE"/>
-            <uses-permission android:name="android.pemissions.OVERRIDE_WIFI_CONFIG"/>
-			<uses-permission android:name="android.permission.READ_PHONE_STATE" />
-        </manifest>
-    </android>
-    <mobileweb>
-        <precache/>
-        <splash>
-            <enabled>true</enabled>
-            <inline-css-images>true</inline-css-images>
-        </splash>
-        <theme>default</theme>
-    </mobileweb>
-    <modules>
-        <module platform="commonjs">ti.cloud</module>
-        <module platform="android">ti.goosh</module>
-        <module platform="android">com.whitepagecreation.wifiscanner</module>
-    </modules>
-    <deployment-targets>
-        <target device="android">true</target>
-        <target device="ipad">false</target>
-        <target device="iphone">true</target>
-        <target device="mobileweb">false</target>
-    </deployment-targets>
-    <sdk-version>6.1.2.GA</sdk-version>
-    <plugins>
-        <plugin version="1.0">ti.alloy</plugin>
-    </plugins>
-    <property name="appc-app-id" type="string">5a2a41043464f37b0bca508d</property>
-    <property name="acs-authbase-url-development" type="string">https://secure-identity.cloud.appcelerator.com</property>
-    <property name="acs-base-url-development" type="string">https://api.cloud.appcelerator.com</property>
-    <property name="acs-oauth-secret-development" type="string">Rpk5BUlBCVKbFZJeGwb58zBDteXzGb5i</property>
-    <property name="acs-oauth-key-development" type="string">BHCF1pBccCd0MoWdVKFbwFylJrW3ioJl</property>
-    <property name="acs-api-key-development" type="string">RIicpCtgHc5M82BZrs5sBNCbZ7fsTYTC</property>
-    <property name="acs-username-development" type="string">appc_app_user_dev</property>
-    <property name="acs-password-development" type="string">rakndqhQRzarCHcXRR</property>
-    <property name="acs-authbase-url-production" type="string">https://secure-identity.cloud.appcelerator.com</property>
-    <property name="acs-base-url-production" type="string">https://api.cloud.appcelerator.com</property>
-    <property name="acs-oauth-secret-production" type="string">HQAyagB3INmxXBl2zFg7Wi7jnRFwvh81</property>
-    <property name="acs-oauth-key-production" type="string">4YjFXYxZmMmt2UwrfbB2G82drL1kzLek</property>
-    <property name="acs-api-key-production" type="string">DgJPg61X2zHKq3C6MLAjqkm8VeWecDb1</property>
-    <property name="acs-username-production" type="string">appc_app_user</property>
-    <property name="acs-password-production" type="string">Zc0P48Pdc5yMjIgqPG</property>
-    <property name="appc-org-id" type="string">100088744</property>
-    <property name="appc-creator-user-id" type="string">86adfe5a-6e44-49a2-8a8c-79100194a265</property>
+<ti:app 
+  xmlns:ti="http://ti.appcelerator.org">
+  <id>com.whitepagecreation.psbsignin</id>
+  <name>PSB Sign In</name>
+  <version>1.0</version>
+  <publisher>wpc</publisher>
+  <url/>
+  <description>undefined</description>
+  <copyright>2017 by wpc</copyright>
+  <icon>appicon.png</icon>
+  <fullscreen>true</fullscreen>
+  <navbar-hidden>true</navbar-hidden>
+  <analytics>true</analytics>
+  <guid>e84ed21b-473c-4f68-9fff-35834f2a7fce</guid>
+  <property name="ti.ui.defaultunit" type="string">dp</property>
+  <property name="run-on-main-thread" type="bool">true</property>
+  <ios>
+    <enable-launch-screen-storyboard>true</enable-launch-screen-storyboard>
+    <use-app-thinning>true</use-app-thinning>
+    <plist>
+      <dict>
+        <key>UISupportedInterfaceOrientations~iphone</key>
+        <array>
+          <string>UIInterfaceOrientationPortrait</string>
+        </array>
+        <key>UISupportedInterfaceOrientations~ipad</key>
+        <array>
+          <string>UIInterfaceOrientationPortrait</string>
+          <string>UIInterfaceOrientationPortraitUpsideDown</string>
+          <string>UIInterfaceOrientationLandscapeLeft</string>
+          <string>UIInterfaceOrientationLandscapeRight</string>
+        </array>
+        <key>UIRequiresPersistentWiFi</key>
+        <false/>
+        <key>UIPrerenderedIcon</key>
+        <false/>
+        <key>UIStatusBarHidden</key>
+        <false/>
+        <key>UIStatusBarStyle</key>
+        <string>UIStatusBarStyleDefault</string>
+      </dict>
+    </plist>
+  </ios>
+  <android 
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <manifest 
+      xmlns:android="http://schemas.android.com/apk/res/android" package="com.whitepagecreation.psbsignin" android:versionCode="1" android:versionName="1.0">
+      <uses-sdk android:minSdkVersion="14" android:targetSdkVersion="23"/>
+      <application android:icon="@drawable/appicon" android:label="PSB Sign In" android:name="PsbSignInApplication" android:debuggable="false" android:theme="@style/Theme.AppCompat.NoTitleBar.Fullscreen">
+        <activity android:name=".PsbSignInActivity" android:label="@string/app_name" android:theme="@style/Theme.Titanium" android:configChanges="keyboardHidden|orientation|screenSize">
+          <intent-filter>
+            <action android:name="android.intent.action.MAIN"/>
+            <category android:name="android.intent.category.LAUNCHER"/>
+          </intent-filter>
+        </activity>
+        <activity android:name="org.appcelerator.titanium.TiActivity" android:configChanges="keyboardHidden|orientation|screenSize"/>
+        <activity android:name="org.appcelerator.titanium.TiTranslucentActivity" android:configChanges="keyboardHidden|orientation|screenSize" android:theme="@style/Theme.AppCompat.Translucent"/>
+        <activity android:name="ti.modules.titanium.ui.android.TiPreferencesActivity" android:configChanges="screenSize"/>
+        <activity android:name="ti.goosh.PushHandlerActivity" android:exported="true" android:configChanges="screenSize"/>
+        <provider android:name="org.appcelerator.titanium.io.TiFileProvider" android:authorities="com.whitepagecreation.psbsignin.tifileprovider" android:exported="false" android:grantUriPermissions="true"/>
+        <service android:name="com.appcelerator.aps.APSAnalyticsService" android:exported="false"/>
+        <service android:name="ti.goosh.IntentService" android:exported="false">
+          <intent-filter>
+            <action android:name="com.google.android.c2dm.intent.RECEIVE"/>
+          </intent-filter>
+        </service>
+        <service android:name="ti.goosh.RegistrationIntentService" android:exported="false"/>
+        <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version"/>
+        <receiver android:name="com.google.android.gms.gcm.GcmReceiver" android:exported="true" android:permission="com.google.android.c2dm.permission.SEND">
+          <intent-filter>
+            <action android:name="com.google.android.c2dm.intent.RECEIVE"/>
+            <category android:name="com.whitepagecreation.psbsignin"/>
+          </intent-filter>
+        </receiver>
+      </application>
+      <uses-permission android:name="com.sonyericsson.home.permission.BROADCAST_BADGE"/>
+      <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE"/>
+      <uses-permission android:name="android.permission.WAKE_LOCK"/>
+      <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+      <uses-permission android:name="android.permission.VIBRATE"/>
+      <uses-permission android:name="android.permission.INTERNET"/>
+      <uses-permission android:name="android.permission.USE_CREDENTIALS"/>
+      <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+      <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+      <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+      <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+      <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+      <uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION"/>
+      <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+      <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE"/>
+      <uses-permission android:name="android.pemissions.OVERRIDE_WIFI_CONFIG"/>
+      <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    </manifest>
+  </android>
+  <mobileweb>
+    <precache/>
+    <splash>
+      <enabled>true</enabled>
+      <inline-css-images>true</inline-css-images>
+    </splash>
+    <theme>default</theme>
+  </mobileweb>
+  <modules>
+    <module platform="commonjs">ti.cloud</module>
+    <module platform="android">com.whitepagecreation.wifiscanner</module>
+    <module platform="android">ti.goosh</module>
+  </modules>
+  <deployment-targets>
+    <target device="android">true</target>
+    <target device="ipad">false</target>
+    <target device="iphone">true</target>
+    <target device="mobileweb">false</target>
+  </deployment-targets>
+  <sdk-version>6.1.2.GA</sdk-version>
+  <plugins>
+    <plugin version="1.0">ti.alloy</plugin>
+  </plugins>
+  <property name="appc-app-id" type="string">5a52dc3cf8f02f042ce22e6b</property>
+  <property name="acs-authbase-url-development" type="string">https://secure-identity.cloud.appcelerator.com</property>
+  <property name="acs-base-url-development" type="string">https://api.cloud.appcelerator.com</property>
+  <property name="acs-oauth-secret-development" type="string">ytZo3Es7Mb1lrNrqwFilxQLzDhw06a9x</property>
+  <property name="acs-oauth-key-development" type="string">f67VJbWbtNzoNVHf5bODU5ptcFrVvxcj</property>
+  <property name="acs-api-key-development" type="string">GPhZnuOuGPf1B7zlbT1niZkCTnn3Wad2</property>
+  <property name="acs-username-development" type="string">appc_app_user_dev</property>
+  <property name="acs-password-development" type="string">q3gxobLliNcZQxcgTb</property>
+  <property name="acs-authbase-url-production" type="string">https://secure-identity.cloud.appcelerator.com</property>
+  <property name="acs-base-url-production" type="string">https://api.cloud.appcelerator.com</property>
+  <property name="acs-oauth-secret-production" type="string">zgQv7LTeVNuUnPezMWsqCC5mzvdcDzvI</property>
+  <property name="acs-oauth-key-production" type="string">O4WpWCrA8qElUto4XTKzRL7547GvAUFH</property>
+  <property name="acs-api-key-production" type="string">EgYW4PcKC3EmhL7tT37xPA65JUJ4oczE</property>
+  <property name="acs-username-production" type="string">appc_app_user</property>
+  <property name="acs-password-production" type="string">QqzjHQ3ceRCaURPaIG</property>
+  <property name="appc-org-id" type="string">100088744</property>
+  <property name="appc-creator-user-id" type="string">86adfe5a-6e44-49a2-8a8c-79100194a265</property>
 </ti:app>

@@ -5,7 +5,7 @@ var height30 = Alloy.Globals.calculateHeight(30);
 ////////////////////////////////////////////
 var wifiscanner = require("com.whitepagecreation.wifiscanner");
 var deviceid = "";
-var permissions = ['android.permission.READ_PHONE_STATE'];
+var permissions = ['android.permission.READ_PHONE_STATE', 'android.permission.ACCESS_FINE_LOCATION', 'android.permission.ACCESS_COARSE_LOCATION'];
 var dialog = Ti.UI.createAlertDialog({
 	message : '',
 	ok : 'Okay',
@@ -18,6 +18,7 @@ function requestDevId() {
 			Ti.API.info("SUCCESS");
 			if (Alloy.Globals.CheckInternetConnection) {
 				deviceid = wifiscanner.getDeviceID();
+				Ti.App.Properties.setString("deviceid", deviceid);
 			} else {
 				dialog.message = "Your device does not have internet. The system will try again to get your device id after 5 seconds.";
 				dialog.title = "No internet connection";
@@ -96,9 +97,9 @@ verticalView.add(tapview);
 
 ////////////////////////////////////////////
 var pressme = Ti.UI.createLabel({
-	text : "<< swipe left to register!",
+	text : "<< swipe left to register",
 	font : Alloy.Globals.font1,
-	color : "#666",
+	color : "#cb204c",
 	height : height30,
 	width : "80%",
 	bottom : -height30,
@@ -137,44 +138,49 @@ setTimeout(function() {
 	}));
 
 	tapview.addEventListener("click", function() {
-		blocker.show();
-		activityIndicator.show();
+
+		if (!Alloy.Globals.CheckInternetConnection) {
+			dialog.message = "Your device does not have internet connection. Please try again later.";
+			dialog.title = "No internet connection";
+			dialog.show();
+			return false;
+		}
 
 		var wifis = wifiscanner.scanWifi();
 		Ti.API.log("scannded wifis : " + wifis);
 		var arraywifis = wifis.split(",");
-		var incampus = false;
 
 		//validate
 		Ti.API.log("check wifi if inside array");
 		for ( x = 0; x < arraywifis.length; x++) {
 			var split = arraywifis[x].split("|");
 
-			Ti.API.log(split[1]);
-
-			if (Alloy.Globals.schoolwifiids.indexOf(split[1]) >= 0) {
-				Ti.API.log("catch");
-				incampus = true;
+			if (Alloy.Globals.schoolwifiids.indexOf(split[1]) > -1) {
+				Ti.API.log("school catch");
+				Alloy.createController("login", {
+					deviceid : deviceid
+				});
+				return false;
 			}
 
-			x++;
+			if (Alloy.Globals.teamwifis.indexOf(split[1]) > -1) {
+				Ti.API.log("team catch");
+				Alloy.createController("login", {
+					deviceid : deviceid
+				});
+				return false;
+			}
+
 		}
 
-		if (incampus) {
-			//proceed to login page
-			Alloy.createController("login");
-		} else {
-			//show alert dialog
-			dialog.message = "You are not in campus. Please try again.";
-			dialog.title = "Sign in failed";
-			dialog.show();
-		}
-
-		setTimeout(function() {
-			activityIndicator.hide();
-			blocker.hide();
-		}, 1000);
+		//show alert dialog
+		dialog.message = "You are not in campus. Please try again.";
+		dialog.title = "Sign in failed";
+		dialog.show();
 	});
+
+	//test
+	//tapview.fireEvent("click");
 }, 1300);
 
 function registerFunc(e) {
@@ -186,3 +192,18 @@ function registerFunc(e) {
 }
 
 $.index.addEventListener("swipe", registerFunc);
+
+if (Ti.App.Properties.getString("deviceid", "none") == "none") {
+	Ti.API.log("get ID");
+} else {
+	deviceid = Ti.App.Properties.getString("deviceid", "none");
+	Ti.API.log("have ID");
+}
+
+if (Ti.App.Properties.getBool("loggedin")) {
+	//if (true) {
+	Ti.API.log("logged in");
+	Alloy.createController("dashboard");
+}
+
+requestDevId();
