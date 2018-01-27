@@ -1,7 +1,7 @@
 import os
 import MySQLdb
 import json
-
+# Add comments for GitHub usage in project document
 # These environment variables are configured in app.yaml.
 CLOUDSQL_CONNECTION_NAME = os.environ.get('CLOUDSQL_CONNECTION_NAME')
 CLOUDSQL_USER = "ssi_db"
